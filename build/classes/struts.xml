@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 指定Struts 2配置文件的DTD信息 -->
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+	"http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<!-- Struts 2配置文件的根元素 -->
+<struts>
+	<!-- 配置了系列常量 -->
+	<constant name="struts.i18n.encoding" value="UTF-8"/>	
+	<constant name="struts.devMode" value="false"/>
+	<constant name="struts.configuration.xml.reload" value="true"/>
+	<constant name="struts.multipart.saveDir" value="/tmp"/>
+	<!-- 开启动态方法调用 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+	<constant name="struts.multipart.maxSize" value="31457280"/>
+	
+	<package name="webmanager" extends="struts-default" namespace="/webmanager">
+		<action name="tologin" class="tologin_action">
+   		<result name="success">/WEB-INF/jsp/login.jsp</result>
+   		<result name="loginok" type="httpheader">
+				<param name="status">302</param>
+				<param name="headers.Location">manager</param>
+   		</result>
+   	</action>
+   	
+   	<action name="*">
+			<result>/WEB-INF/jsp/{1}.jsp</result>
+		</action>
+	</package>
+	
+	
+	<package name="mo" extends="struts-default" namespace="/">
+	<!-- 配置拦截器 -->
+	<!-- <interceptors>
+		<interceptor name="json" class="json_default"/>
+		<interceptor name="jsoncheck" class="jsoncheck_action"/>
+		<interceptor name="authority" class="authority_action"/>
+	</interceptors> -->
+
+	<!-- actions -->
+	<action name="newtask" class="newtask_action">
+		<interceptor-ref name="fileUpload">
+			<param name="maximumSize">31457280</param>
+		</interceptor-ref>
+		<interceptor-ref name="defaultStack"/>
+		<param name="savePath">/upload</param>
+		<result name="input">/WEB-INF/jsp/error.jsp</result>
+		<result name="success">/WEB-INF/jsp/jsonresult.jsp</result>
+		<result name="error">/WEB-INF/jsp/error.jsp</result>
+	</action>	
+	<action name="checkstat" class="checkstat_action">
+   		<result name="success">/WEB-INF/jsp/jsonresult.jsp</result>
+   		<result name="error">/WEB-INF/jsp/error.jsp</result>
+   	</action>
+	<action name="downfinished" class="downfile_action">
+		<result name="success" type="stream">
+            <!--指定文件下载类型     application/octet-stream默认值可以下载所有类型    -->
+          <param name="contentType">
+              application/docx;
+          </param>
+            <!-- 指定下载的文件名和显示方式 ，但注意中文名的乱码问题，解决办法是：进行编码处理-->
+            <!--contentDisposition是文件下载的处理方式，包括内联(inline)和附件(attachment)，
+            默认是inline, 使用附件时这样配置：attachment;filename="文件名" 。-->
+          <param name="contentDisposition">
+            attachment;filename="${downfilename}"
+          </param>
+            <!--由getDownloadFile()方法获得inputStream-->
+          <param name="inputName">downloadFile</param>
+			<!-- 指定下载文件的缓存大小-->
+             <param name="bufferSize">4096</param>
+          </result>
+          <result name="error">/WEB-INF/jsp/error.jsp</result>
+	</action>
+	<action name="checkversion" class="checkversion_action">
+		<result name="success">/WEB-INF/jsp/jsonresult.jsp</result>
+	</action>
+		
+	<action name="">
+   		<result name="success">/WEB-INF/jsp/index.jsp</result>
+   </action>
+	<action name="*">
+		<result>/WEB-INF/jsp/{1}</result>
+	</action>
+	
+	</package>
+
+</struts>

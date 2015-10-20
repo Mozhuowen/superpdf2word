@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 指定Hibernate的DTD信息 -->
+<!DOCTYPE hibernate-mapping
+	PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="domain">
+	<class name="User" table="pw_user">
+	<!-- 映射标识属性staid -->
+	<id name="userid" column="user_id">
+		<!-- 定义主键生成器策略 -->
+		<generator class="identity"/>
+	</id>
+	<property name="serviceid" type="string"/>
+	<property name="registip" type="string"/>
+	<property name="lastip" type="string"/>
+	<property name="servicetype" type="integer"/>
+	<property name="registime" type="calendar"/>
+	<property name="logintime" type="calendar"/>
+	<property name="sv" type="string"/>
+	<property name="phonemodel" type="string"/>
+	<property name="brand" type="string"/>
+	<!-- 影射任务 -->
+	<set name="tasks" inverse="true" order-by="startime desc">
+		<!-- 关联的外键列 -->
+		<key column="user_id"/>
+		<!-- 影射到的关联类属性 -->
+		<one-to-many class="Task"/>
+	</set>
+	</class>
+</hibernate-mapping>

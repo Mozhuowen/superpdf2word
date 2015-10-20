@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 指定Hibernate的DTD信息 -->
+<!DOCTYPE hibernate-mapping
+	PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="domain">
+	<class name="Task" table="pw_task">
+	<!-- 映射标识属性staid -->
+	<id name="taskid" column="task_id">
+		<!-- 定义主键生成器策略 -->
+		<generator class="identity"/>
+	</id>
+	<property name="filename" type="string"/>
+	<property name="filemd5" type="string"/>
+	<property name="finishmd5" type="string"/>
+	<property name="targetname" type="string"/>
+	<property name="filesize" type="integer"/>
+	<property name="stat" type="integer"/>
+	<property name="finishsize" type="integer"/>
+	<property name="startime" type="calendar"/>
+	<property name="errorcode" type="integer"/>
+	<property name="filecode" type="string"/>
+	<property name="finishtime" type="calendar"/>
+	<property name="downtime" type="calendar"/>
+	<!-- 关联user -->
+	<many-to-one name="user" class="User" column="user_id" not-null="true"/>	
+	</class>
+</hibernate-mapping>

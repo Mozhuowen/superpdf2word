@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+	<context-param>
+    	<param-name>workdir</param-name>
+    	<param-value>/tmp/workdir/</param-value>
+    </context-param>
+    <context-param>
+    	<param-name>resultdir</param-name>
+    	<param-value>/tmp/resultdir/</param-value>
+    </context-param>
+    <context-param>
+    	<param-name>downdir</param-name>
+    	<param-value>/tmp/downdir/</param-value>
+    </context-param>
+    <context-param>
+    	<param-name>version</param-name>
+    	<param-value>1</param-value>
+    </context-param>
+    <context-param>
+    	<param-name>minversion</param-name>
+    	<param-value>1</param-value>
+    </context-param>
+    <context-param>
+    	<param-name>versionname</param-name>
+    	<param-value>0.0.1</param-value>
+    </context-param>
+    <context-param>
+    	<param-name>updateinfo</param-name>
+    	<param-value>pdf转word版本0.0.1</param-value>
+    </context-param>
+    <context-param>
+    	<param-name>downloadurl</param-name>
+    	<param-value>http://www.baidu.com/</param-value>
+    </context-param>
+   
+	<listener>  
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>  
+    </listener>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>tools.Loadonstart</listener-class>
+	</listener>
+   <filter>  
+       <filter-name>hibernateFilter</filter-name>  
+       <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>  
+          <init-param>  
+               <param-name>flushMode</param-name>  
+               <param-value>AUTO</param-value>  
+           </init-param> 
+       <init-param>  
+           <param-name>singleSession</param-name>  
+           <param-value>true</param-value>  
+       </init-param>  
+   </filter>  
+   <filter-mapping>  
+       <filter-name>hibernateFilter</filter-name>  
+       <url-pattern>/*</url-pattern>  
+   </filter-mapping> 
+   
+	<filter>
+		<filter-name>struts2</filter-name>
+		
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+		
+	<!-- <filter-class>interceptor.KindeditorFilter</filter-class>   -->
+	</filter>
+	<!--  -->
+	<filter-mapping>
+		<filter-name>struts2</filter-name>	
+		<url-pattern>/*</url-pattern>		
+	</filter-mapping>
+	
+	
+</web-app>
